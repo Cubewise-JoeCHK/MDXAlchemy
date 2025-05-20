@@ -20,7 +20,7 @@ Developing a TM1 MDX query compiler in Python requires a structured approach, co
 - Module boundaries and interfaces  
 
 **Tool Selection**  
-- Choose parser generator (e.g. PLY or Lark) based on Python ecosystem  
+- Use Lark for parsing and tokenization.  
 - Define AST node classes in Python  
 
 **Data Model**  
@@ -29,9 +29,9 @@ Developing a TM1 MDX query compiler in Python requires a structured approach, co
 
 ## Phase 3: Implementation
 **3.1 Lexical & Syntax Analysis**  
-- Write MDX grammar covering SELECT, FROM, WHERE, standard functions, TM1 extensions  
-- Implement tokenizer to emit tokens: identifiers, literals, brackets, commas  
-- Build parser rules to construct AST  
+- Write MDX grammar for Lark, covering SELECT, FROM, WHERE, standard functions, TM1 extensions  
+- Implement tokenizer using Lark to emit tokens: identifiers, literals, brackets, commas  
+- Build parser rules in Lark to construct AST  
 
 **3.2 AST & Semantic Analysis**  
 - Develop AST node classes with validation methods  
