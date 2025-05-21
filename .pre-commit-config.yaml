@@ -1,0 +1,49 @@
+repos:
+-   repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.6.0
+    hooks:
+    -   id: trailing-whitespace
+    -   id: end-of-file-fixer
+    -   id: check-yaml
+    -   id: check-toml
+    -   id: check-added-large-files
+
+-   repo: https://github.com/google/yapf.git
+    rev: v0.43.0
+    hooks:
+    - id: yapf
+      name: yapf
+      description: "A formatter for Python files."
+      entry: yapf
+      args: [-i] #inplace
+      language: python
+      types: [python]
+
+    - id: yapf-diff
+      name: yapf-diff
+      description: "A formatter for Python files. (formats only changes included in commit)"
+      always_run: true
+      language: python
+      pass_filenames: false
+      stages: [pre-commit]
+      entry: |
+        bash -c "git diff -U0 --no-color --relative HEAD \
+                      | yapf-diff \
+                      | tee >(git apply --allow-empty -p0)"
+
+-   repo: local
+    hooks:
+    -   id: clean-pycache
+        name: Clean __pycache__ directories
+        entry: bash -c 'find . -path "*/__pycache__" -type d -exec rm -rf {} +'
+        language: system
+        pass_filenames: false
+        always_run: true
+        stages: [pre-commit]
+    -   id: generate-config-example
+        name: Generate config.ini.example
+        entry: bash -c "if [ -f config/config.ini ]; then sed -E 's/^(\\s*[^=;#][^=]*\\s*=\\s*).*/\\1/; s/=\\s*$/=/' config/config.ini > config/config.ini.example && git add config/config.ini.example; else echo 'config/config.ini not found, skipping example generation.'; fi"
+        language: system
+        pass_filenames: false
+        always_run: true # Ensures it runs on every commit to keep example file in sync
+        stages: [pre-commit]

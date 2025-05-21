@@ -39,9 +39,16 @@ dependencies = [
 dev = [
     "pytest",
     "pytest-cov",
-    "pre-commit", 
+    "pre-commit",
+    "ruff",
 ]
 
 [build-system]
 requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
+
+[yapf]
+based_on_style = "pep8"
+
+[tool.ruff]
+line-length = 80
