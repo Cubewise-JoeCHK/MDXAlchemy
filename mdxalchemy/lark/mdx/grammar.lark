@@ -1,82 +1,83 @@
-start: query_statement 
+start: query_statement
 
-// token 
-SELECT:             "SELECT"
-FROM:               "FROM"
-WHERE:              "WHERE"
-NON:                "NON"
-EMPTY:              "EMPTY"
-ON:                 "ON"
-ROWS:               "ROWS"
-COLUMNS:            "COLUMNS"
-STAR:               "*"
+// token
+SELECT:                 "SELECT"
+FROM:                   "FROM"
+WHERE:                  "WHERE"
+NON:                    "NON"
+EMPTY:                  "EMPTY"
+ON:                     "ON"
+ROWS:                   "ROWS"
+COLUMNS:                "COLUMNS"
+STAR:                   "*"
 
-IDENTIFIER:         /[a-zA-Z0-9_ ][a-zA-Z0-9_ ]*/
-INT:                /[0-9]+/
+IDENTIFIER:             /[a-zA-Z0-9_ ][a-zA-Z0-9_ ]*/
+INT:                    /[0-9]+/
 
-LBRACE:             "{"
-RBRACE:             "}"
-LBRACKET:           "["
-RBRACKET:           "]"
-RPAREN:             ")"
-LPAREN:             "("
-COMMA:              ","
-DOT:                "."
+LBRACE:                 "{"
+RBRACE:                 "}"
+LBRACKET:               "["
+RBRACKET:               "]"
+RPAREN:                 ")"
+LPAREN:                 "("
+COMMA:                  ","
+DOT:                    "."
 
 // member expression:
-MEMBERS:            "MEMBERS"i
+MEMBERS:                "MEMBERS"i
 
 
-// tm1 mdx functions: 
-TM1FILTERBYLEVEL: "TM1FILTERBYLEVEL"i
-TM1FILTERBYPATTERN: "TM1FILTERBYPATTERN"i
-TM1DRILLDOWNMEMBER: "TM1DRILLDOWNMEMBER"i
-TM1MEMBER: "TM1MEMBER"i
-TM1SORT: "TM1SORT"i
-TM1SORTBYINDEX: "TM1SORTBYINDEX"i
-TM1SUBSETALL: "TM1SUBSETALL"i
-TM1SUBSETTOSET: "TM1SUBSETTOSET"i
-TM1TUPLESIZE: "TM1TUPLESIZE"i
+// tm1 mdx functions:
+TM1FILTERBYLEVEL:       "TM1FILTERBYLEVEL"i
+TM1FILTERBYPATTERN:     "TM1FILTERBYPATTERN"i
+TM1DRILLDOWNMEMBER:     "TM1DRILLDOWNMEMBER"i
+TM1MEMBER:              "TM1MEMBER"i
+TM1SORT:                "TM1SORT"i
+TM1SORTBYINDEX:         "TM1SORTBYINDEX"i
+TM1SUBSETALL:           "TM1SUBSETALL"i
+TM1SUBSETTOSET:         "TM1SUBSETTOSET"i
+TM1TUPLESIZE:           "TM1TUPLESIZE"i
 
 
-query_statement:    SELECT axis_statement COMMA axis_statement cube_source (WHERE where_statement)?
+query_statement:        select_statement cube_source (where_statement)?
 
 // axis_statement: ON ROWS, ON COLUMNS
-axis_statement:     non_empty? set (STAR set)* ( on_columns | on_rows)
+select_statement:       SELECT row_axis_statement (COMMA column_axis_statement)?
+                        | SELECT column_axis_statement (COMMA row_axis_statement)?
 
-on_columns:         ON COLUMNS
-on_rows:            ON ROWS
-non_empty:          NON EMPTY
-set:                LBRACE (member | member DOT member_expression | function) RBRACE | function 
-cube_source:        FROM name
-member:             long_member | short_member
-long_member:        name DOT name DOT name 
-short_member:       name DOT name
+row_axis_statement:     non_empty? set (STAR set)* ON ROWS
+column_axis_statement:  non_empty? set (STAR set)* ON COLUMNS
+non_empty:              NON EMPTY
+set:                    LBRACE (member | member_with_expression | function) RBRACE | function
+cube_source:            FROM name
+member_with_expression: member DOT member_expression
+member:                 long_member | short_member
+long_member:            name DOT name DOT name
+short_member:           name DOT name
 
-name:               LBRACKET IDENTIFIER RBRACKET
-member_expression:  MEMBERS
+name:                   LBRACKET IDENTIFIER RBRACKET
+member_expression:      MEMBERS
 
-// where_statement: 
-where_statement:    LPAREN member (COMMA member)* RPAREN 
+// where_statement:
+where_statement:        WHERE LPAREN member (COMMA member)* RPAREN
 
-function:           TM1DRILLDOWNMEMBER 
-                    | tm1_filter_by_level
-                    | tm1_filter_by_pattern
-                    | tm1_sort 
-                    | tm1_sort_by_index
-                    | tm1_subset_all
-                    | tm1_subset_to_set
+function:               TM1DRILLDOWNMEMBER
+                        | tm1_filter_by_level
+                        | tm1_filter_by_pattern
+                        | tm1_sort
+                        | tm1_sort_by_index
+                        | tm1_subset_all
+                        | tm1_subset_to_set
 
-tm1_filter_by_pattern: "TM1FilterByPattern"i LPAREN set COMMA IDENTIFIER (COMMA IDENTIFIER) RPAREN
-tm1_filter_by_level:   "TM1FilterByLevel"i LPAREN set COMMA INT RPAREN
-tm1_sort:              "TM1Sort"i LPAREN set COMMA sort_mode RPAREN
-tm1_sort_by_index:     "TM1SortByIndex"i LPAREN set COMMA sort_mode RPAREN
-tm1_subset_all:        "TM1SubsetALL"i LPAREN (name | short_member) RPAREN
-tm1_subset_to_set:     "TM1SubsetToSet"i LPAREN set COMMA set (COMMA ("PUBLIC"i | "PRIVATE"i))? set RPAREN
-tm1_drilldown_member:  "TM1DrillDownMember"i LPAREN set COMMA (set|"ALL"i) (COMMA "RECURSIVE"i) RPAREN
+tm1_filter_by_pattern:  "TM1FilterByPattern"i LPAREN set COMMA IDENTIFIER (COMMA IDENTIFIER) RPAREN
+tm1_filter_by_level:    "TM1FilterByLevel"i LPAREN set COMMA INT RPAREN
+tm1_sort:               "TM1Sort"i LPAREN set COMMA sort_mode RPAREN
+tm1_sort_by_index:      "TM1SortByIndex"i LPAREN set COMMA sort_mode RPAREN
+tm1_subset_all:         "TM1SubsetALL"i LPAREN (name | short_member) RPAREN
+tm1_subset_to_set:      "TM1SubsetToSet"i LPAREN set COMMA set (COMMA ("PUBLIC"i | "PRIVATE"i))? set RPAREN
+tm1_drilldown_member:   "TM1DrillDownMember"i LPAREN set COMMA (set|"ALL"i) (COMMA "RECURSIVE"i) RPAREN
 
-sort_mode:             "ASC"i | "DESC"i
+sort_mode:              "ASC"i | "DESC"i
 
-%import common.WS 
-%ignore WS 
-
+%import common.WS
+%ignore WS
