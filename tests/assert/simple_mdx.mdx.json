@@ -1,0 +1,36 @@
+{
+    "cube": "Bus ETA",
+    "rows": {
+        "axis": "rows",
+        "non_empty": true,
+        "set_expressions": [
+            "{[KMB Stop].[KMB Stop].Members}"
+        ]
+    },
+    "columns": {
+        "axis": "columns",
+        "non_empty": true,
+        "set_expressions": [
+            "{[M Bus ETA].[M Bus ETA].Members}"
+        ]
+    },
+    "where": {
+        "members": [
+            {
+                "dimension": "Bus Route",
+                "hierarchy": "Bus Route",
+                "element": "74D"
+            },
+            {
+                "dimension": "Bus Bound",
+                "hierarchy": "Bus Bound",
+                "element": "I"
+            },
+            {
+                "dimension": "Bus Service",
+                "hierarchy": "Bus Service",
+                "element": "All Service"
+            }
+        ]
+    }
+}
