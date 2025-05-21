@@ -1,0 +1,3 @@
+
+def mdx_to_tm1py_native_view(mdx: str):
+    ...

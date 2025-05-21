@@ -1,0 +1,11 @@
+GRAMMAR_LARK = 'grammar.lark'
+WHERE_STATEMENT = 'where_statement'
+AXIS_STATEMENT = 'axis_statement'
+ON_ROWS = 'on_rows'
+ON_COLUMNS = 'on_columns'
+NON_EMPTY = 'non_empty'
+SET = 'set'
+MEMBER = 'member'
+IDENTIFIER = 'IDENTIFIER'
+QUERY_STATEMENT = 'query_statement'
+
