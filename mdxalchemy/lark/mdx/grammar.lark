@@ -7,8 +7,8 @@ WHERE:                  "WHERE"
 NON:                    "NON"
 EMPTY:                  "EMPTY"
 ON:                     "ON"
-ROWS:                   "ROWS"
-COLUMNS:                "COLUMNS"
+ROWS:                   "ROWS" | "1"
+COLUMNS:                "COLUMNS" | "0"
 STAR:                   "*"
 
 IDENTIFIER:             /[a-zA-Z0-9_ ][a-zA-Z0-9_ ]*/
@@ -22,7 +22,10 @@ RPAREN:                 ")"
 LPAREN:                 "("
 COMMA:                  ","
 DOT:                    "."
-
+DOUBLE_QUOTE:            "\""
+SINGLE_QUOTE:            "\'"
+PUBLIC:                "PUBLIC"i
+PRIVATE:               "PRIVATE"i
 // member expression:
 MEMBERS:                "MEMBERS"i
 
@@ -69,15 +72,26 @@ function:               TM1DRILLDOWNMEMBER
                         | tm1_subset_all
                         | tm1_subset_to_set
 
-tm1_filter_by_pattern:  "TM1FilterByPattern"i LPAREN set COMMA IDENTIFIER (COMMA IDENTIFIER) RPAREN
-tm1_filter_by_level:    "TM1FilterByLevel"i LPAREN set COMMA INT RPAREN
-tm1_sort:               "TM1Sort"i LPAREN set COMMA sort_mode RPAREN
-tm1_sort_by_index:      "TM1SortByIndex"i LPAREN set COMMA sort_mode RPAREN
-tm1_subset_all:         "TM1SubsetALL"i LPAREN (name | short_member) RPAREN
-tm1_subset_to_set:      "TM1SubsetToSet"i LPAREN set COMMA set (COMMA ("PUBLIC"i | "PRIVATE"i))? set RPAREN
-tm1_drilldown_member:   "TM1DrillDownMember"i LPAREN set COMMA (set|"ALL"i) (COMMA "RECURSIVE"i) RPAREN
+tm1_filter_by_pattern:  "TM1FilterByPattern"i LPAREN function_set COMMA literals (COMMA literals) RPAREN
+tm1_filter_by_level:    "TM1FilterByLevel"i LPAREN function_set COMMA INT RPAREN
+tm1_sort:               "TM1Sort"i LPAREN function_set COMMA sort_mode RPAREN
+tm1_sort_by_index:      "TM1SortByIndex"i LPAREN function_set COMMA sort_mode RPAREN
+tm1_subset_all:         "TM1SubsetALL"i LPAREN function_set RPAREN
+tm1_subset_to_set:      "TM1SubsetToSet"i LPAREN function_set COMMA literals (COMMA literals)? RPAREN
+tm1_drilldown_member:   "TM1DrillDownMember"i LPAREN function_set COMMA (function_set|"ALL"i) (COMMA "RECURSIVE"i) RPAREN
+
+function_set:           LBRACE (function | member) RBRACE | ( function | member )
+literals:               quote  IDENTIFIER  quote
+quote:                  DOUBLE_QUOTE | SINGLE_QUOTE
 
 sort_mode:              "ASC"i | "DESC"i
 
+
+
+// drop them entirely
+%import common.WS
+%import common.NEWLINE
+%ignore NEWLINE
 %import common.WS
 %ignore WS
+%ignore /(\r?\n)+/

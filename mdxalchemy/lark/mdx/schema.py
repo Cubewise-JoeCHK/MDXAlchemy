@@ -24,14 +24,34 @@ class SetExpression:
                 if isinstance(child, lark.Tree)
         ][0]).data:
             case 'member_with_expression' | 'member':
-                if expression := next(child.find_data(MEMBER_EXPRESSION)):
+                try:
+                    expression = next(child.find_data(MEMBER_EXPRESSION))
+                except StopIteration:
+                    expression = None
+
+                if expression:
                     expression = expression.children[0].value
+                    #! since the design of grammar, the member with expression has one additional layer then normal member. so we need to get the first child of the first child
                     return Member.from_tree(
                         member=child.children[0].children[0],
                         expression=expression,
                         _tree=tree)
-                return Member.from_tree(member=child.children[0].children[0],
-                                        _tree=tree)
+                return Member.from_tree(member=child.children[0], _tree=tree)
+            case 'function':
+                FUNCTION = 'function'
+                function_tree = next(child.find_data(FUNCTION)).children[0]
+                function = Function(name=function_tree.data.value,
+                                    _tree=function_tree)
+
+                for child in function_tree.children:
+                    if isinstance(child, lark.Token):
+                        continue
+                    child = child if child.data != 'literals' else lark.Tree(
+                        'literals', [child])
+                    function.add_paramters(SetExpression.analyze(child))
+                return function
+            case 'literals':
+                return Literal.from_tree(child)
             case _:
                 raise ValueError(f"Unknown tree data: {child.data}")
 
@@ -41,6 +61,40 @@ class SetExpression:
 
     def to_json(self):
         return {'type': self.type, 'data': self.data}
+
+
+@dataclass(kw_only=True)
+class Function(SetExpression):
+    name: str
+    type: str = field(default='function')
+    parameters: list[SetExpression] = field(default_factory=list)
+
+    def add_paramters(self, expression: SetExpression):
+        self.parameters.append(expression)
+
+    @property
+    def data(self):
+        return {
+            'name': self.name,
+            'parameters': [i.data for i in self.parameters]
+        }
+
+
+@dataclass(kw_only=True)
+class Literal(SetExpression):
+    type: str = field(default='literal')
+    value: str = field(default='')
+
+    @classmethod
+    def from_tree(cls, _tree):
+        return cls(value=[
+            i for i in _tree.children if isinstance(i, lark.Token)
+        ][0].value,
+                   _tree=_tree)
+
+    @property
+    def data(self):
+        return {'data': self.value}
 
 
 class Axis(StrEnum):

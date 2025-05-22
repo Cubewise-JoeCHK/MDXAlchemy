@@ -10,7 +10,7 @@ def retrieve_on_row_axis_statement(root_tree: lark.Tree) -> AxisStatement:
         return AxisStatement(axis=Axis.rows,
                              non_empty=False,
                              set_expressions=[])
-    non_empty = bool(next(select_statement.find_data(NON_EMPTY)))
+    non_empty = bool(_find_non_empty(select_statement))
     set_list = [
         SetExpression.analyze(child)
         for child in select_statement.find_data(SET)
@@ -26,7 +26,7 @@ def retrieve_on_column_axis_statement(root_tree: lark.Tree) -> AxisStatement:
         return AxisStatement(axis=Axis.columns,
                              non_empty=False,
                              set_expressions=[])
-    non_empty = bool(next(select_statement.find_data(NON_EMPTY)))
+    non_empty = bool(_find_non_empty(select_statement))
     set_list = [
         SetExpression.analyze(child)
         for child in select_statement.find_data(SET)
@@ -41,6 +41,8 @@ def retrieve_where_statement(root_tree: lark.Tree) -> WhereStatement:
         child for child in root_tree.find_data(WHERE_STATEMENT)
         if [child for child in child.find_data(MEMBER)]
     ]
+    if not tree:
+        return WhereStatement(members=[])
     assert len(tree) == 1, "There should be only one where statement"
     child = tree[0]
     members = []
@@ -54,3 +56,10 @@ def retrieve_cube_source(root_tree: lark.Tree):
     return next(
         next(next(root_tree.find_data('cube_source')).find_data(
             'name')).scan_values(lambda x: x.type == IDENTIFIER)).value
+
+
+def _find_non_empty(tree: lark.Tree):
+    try:
+        return next(tree.find_data(NON_EMPTY))
+    except StopIteration:
+        return None

@@ -1,0 +1,78 @@
+{
+    "cube": "Expense",
+    "rows": {
+        "axis": "rows",
+        "non_empty": false,
+        "set_expressions": [
+            {
+                "type": "function",
+                "data": {
+                    "name": "tm1_subset_to_set",
+                    "parameters": [
+                        {
+                            "dimension": "Cost Centre",
+                            "hierarchy": "Cost Centre",
+                            "element": "Cost Centre",
+                            "expression": ""
+                        },
+                        {
+                            "data": "Default"
+                        },
+                        {
+                            "data": "public"
+                        }
+                    ]
+                }
+            },
+            {
+                "type": "function",
+                "data": {
+                    "name": "tm1_subset_to_set",
+                    "parameters": [
+                        {
+                            "dimension": "Reporting Currency",
+                            "hierarchy": "Reporting Currency",
+                            "element": "Reporting Currency",
+                            "expression": ""
+                        },
+                        {
+                            "data": "Default"
+                        },
+                        {
+                            "data": "public"
+                        }
+                    ]
+                }
+            }
+        ]
+    },
+    "columns": {
+        "axis": "columns",
+        "non_empty": false,
+        "set_expressions": [
+            {
+                "type": "function",
+                "data": {
+                    "name": "tm1_subset_to_set",
+                    "parameters": [
+                        {
+                            "dimension": "Expense Measures",
+                            "hierarchy": "Expense Measures",
+                            "element": "Expense Measures",
+                            "expression": ""
+                        },
+                        {
+                            "data": "Default"
+                        },
+                        {
+                            "data": "public"
+                        }
+                    ]
+                }
+            }
+        ]
+    },
+    "where": {
+        "members": []
+    }
+}
