@@ -18,4 +18,4 @@ WHERE
   )
 """
 
-export_query_statement_to_json("./scripts/temp.json", analyze(case))
+export_query_statement_to_json("./tmp/temp.json", analyze(case))
