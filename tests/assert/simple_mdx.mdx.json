@@ -5,10 +5,13 @@
         "non_empty": true,
         "set_expressions": [
             {
-                "dimension": "KMB Stop",
-                "hierarchy": "KMB Stop",
-                "element": "KMB Stop",
-                "expression": "Members"
+                "type": "member",
+                "data": {
+                    "dimension": "KMB Stop",
+                    "hierarchy": "KMB Stop",
+                    "element": "KMB Stop",
+                    "expression": "Members"
+                }
             }
         ]
     },
@@ -17,32 +20,44 @@
         "non_empty": true,
         "set_expressions": [
             {
-                "dimension": "M Bus ETA",
-                "hierarchy": "M Bus ETA",
-                "element": "M Bus ETA",
-                "expression": "Members"
+                "type": "member",
+                "data": {
+                    "dimension": "M Bus ETA",
+                    "hierarchy": "M Bus ETA",
+                    "element": "M Bus ETA",
+                    "expression": "Members"
+                }
             }
         ]
     },
     "where": {
         "members": [
             {
-                "dimension": "Bus Route",
-                "hierarchy": "Bus Route",
-                "element": "74D",
-                "expression": ""
+                "type": "member",
+                "data": {
+                    "dimension": "Bus Route",
+                    "hierarchy": "Bus Route",
+                    "element": "74D",
+                    "expression": ""
+                }
             },
             {
-                "dimension": "Bus Bound",
-                "hierarchy": "Bus Bound",
-                "element": "I",
-                "expression": ""
+                "type": "member",
+                "data": {
+                    "dimension": "Bus Bound",
+                    "hierarchy": "Bus Bound",
+                    "element": "I",
+                    "expression": ""
+                }
             },
             {
-                "dimension": "Bus Service",
-                "hierarchy": "Bus Service",
-                "element": "All Service",
-                "expression": ""
+                "type": "member",
+                "data": {
+                    "dimension": "Bus Service",
+                    "hierarchy": "Bus Service",
+                    "element": "All Service",
+                    "expression": ""
+                }
             }
         ]
     }

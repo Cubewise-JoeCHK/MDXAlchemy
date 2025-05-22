@@ -1,10 +1,10 @@
 from .schema import Axis, AxisStatement, WhereStatement, Member, SetExpression
 import lark
-from .const import WHERE_STATEMENT, NON_EMPTY, SET, MEMBER
+from .const import IDENTIFIER, WHERE_STATEMENT, NON_EMPTY, SET, MEMBER, ROW_SELECT_STATEMENT, COLUMN_AXIS_STATEMENT
 
 
 def retrieve_on_row_axis_statement(root_tree: lark.Tree) -> AxisStatement:
-    ROW_SELECT_STATEMENT = 'row_axis_statement'
+
     select_statement = next(root_tree.find_data(ROW_SELECT_STATEMENT))
     if not select_statement:
         return AxisStatement(axis=Axis.rows,
@@ -21,7 +21,6 @@ def retrieve_on_row_axis_statement(root_tree: lark.Tree) -> AxisStatement:
 
 
 def retrieve_on_column_axis_statement(root_tree: lark.Tree) -> AxisStatement:
-    COLUMN_AXIS_STATEMENT = 'column_axis_statement'
     select_statement = next(root_tree.find_data(COLUMN_AXIS_STATEMENT))
     if not select_statement:
         return AxisStatement(axis=Axis.columns,
@@ -46,11 +45,12 @@ def retrieve_where_statement(root_tree: lark.Tree) -> WhereStatement:
     child = tree[0]
     members = []
     for member in child.find_data(MEMBER):
-        members.append(Member.from_tree(member.children[0]))
+        members.append(
+            Member.from_tree(member.children[0], _tree=member.children[0]), )
     return WhereStatement(members=members)
 
 
 def retrieve_cube_source(root_tree: lark.Tree):
     return next(
         next(next(root_tree.find_data('cube_source')).find_data(
-            'name')).scan_values(lambda x: x.type == 'IDENTIFIER')).value
+            'name')).scan_values(lambda x: x.type == IDENTIFIER)).value
