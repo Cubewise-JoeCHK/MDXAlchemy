@@ -76,7 +76,7 @@ class Function(SetExpression):
     def data(self):
         return {
             'name': self.name,
-            'parameters': [i.data for i in self.parameters]
+            'parameters': [i.to_json() for i in self.parameters]
         }
 
 
