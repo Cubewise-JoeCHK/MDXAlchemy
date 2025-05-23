@@ -10,16 +10,25 @@
                     "name": "tm1_subset_to_set",
                     "parameters": [
                         {
-                            "dimension": "Cost Centre",
-                            "hierarchy": "Cost Centre",
-                            "element": "Cost Centre",
-                            "expression": ""
+                            "type": "member",
+                            "data": {
+                                "dimension": "Cost Centre",
+                                "hierarchy": "Cost Centre",
+                                "element": "Cost Centre",
+                                "expression": ""
+                            }
                         },
                         {
-                            "data": "Default"
+                            "type": "literal",
+                            "data": {
+                                "data": "Default"
+                            }
                         },
                         {
-                            "data": "public"
+                            "type": "literal",
+                            "data": {
+                                "data": "public"
+                            }
                         }
                     ]
                 }
@@ -30,16 +39,25 @@
                     "name": "tm1_subset_to_set",
                     "parameters": [
                         {
-                            "dimension": "Reporting Currency",
-                            "hierarchy": "Reporting Currency",
-                            "element": "Reporting Currency",
-                            "expression": ""
+                            "type": "member",
+                            "data": {
+                                "dimension": "Reporting Currency",
+                                "hierarchy": "Reporting Currency",
+                                "element": "Reporting Currency",
+                                "expression": ""
+                            }
                         },
                         {
-                            "data": "Default"
+                            "type": "literal",
+                            "data": {
+                                "data": "Default"
+                            }
                         },
                         {
-                            "data": "public"
+                            "type": "literal",
+                            "data": {
+                                "data": "public"
+                            }
                         }
                     ]
                 }
@@ -56,16 +74,25 @@
                     "name": "tm1_subset_to_set",
                     "parameters": [
                         {
-                            "dimension": "Expense Measures",
-                            "hierarchy": "Expense Measures",
-                            "element": "Expense Measures",
-                            "expression": ""
+                            "type": "member",
+                            "data": {
+                                "dimension": "Expense Measures",
+                                "hierarchy": "Expense Measures",
+                                "element": "Expense Measures",
+                                "expression": ""
+                            }
                         },
                         {
-                            "data": "Default"
+                            "type": "literal",
+                            "data": {
+                                "data": "Default"
+                            }
                         },
                         {
-                            "data": "public"
+                            "type": "literal",
+                            "data": {
+                                "data": "public"
+                            }
                         }
                     ]
                 }
