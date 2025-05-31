@@ -13,6 +13,7 @@ keywords = ["mdx", "tm1", "compiler", "olap", "Cubewise", "TM1", "Python"]
 dependencies = [
     "lark",
     "TM1py==2.1.0",
+    "mdxpy",
 ]
 
 [project.optional-dependencies]
