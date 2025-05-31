@@ -1,14 +1,7 @@
-[tool.pytest.ini_options]
-minversion = "6.0"
-addopts = "-ra"
-testpaths = [
-    "tests",
-]
-
 [project]
-name = "mdxalchemy"
+name = "TM1Alchemy"
 version = "0.1.0"
-description = "A TM1 MDX query compiler in Python"
+description = "A TM1 compiler in Python"
 readme = "README.md"
 requires-python = ">=3.8"
 license = {file = "LICENSE"}
@@ -16,20 +9,6 @@ authors = [
   {name = "Joe Chow", email = "jchow@cubewise.com"}
 ]
 keywords = ["mdx", "tm1", "compiler", "olap", "Cubewise", "TM1", "Python"]
-
-classifiers = [
-    "Development Status :: 3 - Alpha",
-    "Intended Audience :: Developers",
-    "License :: OSI Approved :: MIT License",
-    "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.8",
-    "Programming Language :: Python :: 3.9",
-    "Programming Language :: Python :: 3.10",
-    "Programming Language :: Python :: 3.11",
-    "Programming Language :: Python :: 3.12",
-    "Topic :: Software Development :: Compilers",
-    "Topic :: Database :: Front-Ends",
-]
 
 dependencies = [
     "lark",
@@ -41,15 +20,27 @@ dev = [
     "pytest",
     "pytest-cov",
     "pre-commit",
-    "ruff",
 ]
 
 [build-system]
 requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
 
-[yapf]
-based_on_style = "pep8"
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["TM1Alchemy*"]
 
-[tool.ruff]
-line-length = 80
+[tool.pytest.ini_options]
+minversion = "6.0"
+addopts = "-ra"
+testpaths = [
+    "tests",
+]
+
+[tool.yapf]
+based_on_style = "google"
+COLUMN_LIMIT = 120
+indent_width = 4
+spaces_before_comment = 4
+allow_split_before_dict_value = false
+split_before_named_assigns = false

@@ -1,3 +1,57 @@
+# TM1Alchemy
+
+TM1Alchemy is a Python-based TM1 MDX query compiler. It parses TM1-flavored MDX and emits Python code for execution against IBM Planning Analytics (TM1) via TM1py. The project is designed for developers and analysts who need to analyze, transform, or generate TM1 MDX queries programmatically.
+
+## Features
+- Parses TM1-specific MDX, including TM1 extensions and standard MDX clauses (SELECT, FROM, WHERE)
+- Converts MDX queries into Python objects and JSON representations
+- Integrates with TM1py for TM1 REST API compatibility
+- Extensible grammar using Lark parser
+
+## Project Structure
+
+```
+TM1Alchemy/
+├── mdxalchemy/        # Core compiler and parser logic
+│   └── lark/          # Lark grammar, parser, and AST schema
+├── scripts/           # Example scripts and utilities
+├── config/            # Configuration templates
+├── tests/             # Test cases and assertions
+├── README.md          # Project documentation
+├── pyproject.toml     # Build and dependency configuration
+└── ...
+```
+
+- `mdxalchemy/`: Main source code for parsing and compiling TM1 MDX.
+- `scripts/`: Example scripts for using the compiler.
+- `config/`: Example configuration files.
+- `tests/`: Automated tests and test cases.
+
+## Quickstart
+
+1. **Install dependencies**
+   ```bash
+   pip install -e .[dev]
+   ```
+2. **Run a sample script**
+   ```bash
+   python scripts/build_mdx_test_case.py
+   ```
+3. **Run tests**
+   ```bash
+   pytest
+   ```
+
+## Contributing
+See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
+
+## License
+MIT License. See [LICENSE](LICENSE).
+
+---
+
+# Project Plan (for reference)
+
 Developing a TM1 MDX query compiler in Python requires a structured approach, covering requirements capture, grammar design, AST creation, semantic validation, code generation, and testing. The following project plan outlines phases, deliverables, and a high-level timeline to build a robust compiler that parses TM1-flavored MDX and emits Python code for execution against TM1.
 
 ## Phase 1: Requirements & Research

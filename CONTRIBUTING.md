@@ -1,6 +1,6 @@
-# MDX Compiler
+# TM1Alchemy
 
-This project is a TM1 MDX query compiler written in Python. It parses TM1-flavored MDX and emits Python code for execution against TM1.
+TM1Alchemy is a TM1 MDX query compiler written in Python. It parses TM1-flavored MDX and emits Python code for execution against IBM Planning Analytics (TM1).
 
 ## Contributing
 
